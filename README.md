@@ -28,20 +28,35 @@
 |:---:|:---:|:---:|
 | ![](screenshots/02-code.png) | ![](screenshots/03-quiz.png) | ![](screenshots/04-dark.png) |
 
+| 分屏默写 · 打字 | 分屏默写 · 手写 |
+|:---:|:---:|
+| ![](screenshots/05-dictation-typing.png) | ![](screenshots/06-dictation-handwriting.png) |
+
 > 界面风格参考 [Animal Island UI](https://github.com/guokaigdg/animal-island-ui)（Animal Crossing 风）。
 
 ---
 
 ## 🚀 安装
 
-将本仓库克隆到 Claude Code 的 skills 目录：
+本 skill 同时兼容 **Claude Code** 与 **OpenAI Codex CLI**（二者均采用 `SKILL.md` 规范）。
+
+**Claude Code** —— 克隆到用户 skills 目录（自动发现）：
 
 ```bash
 git clone https://github.com/YanyingWei1997/exam-flashcard-builder.git \
   ~/.claude/skills/exam-flashcard-builder
 ```
 
-之后在 Claude Code 中说「**帮我把这份资料做成复习卡片**」「**用这门课的资料做个复习系统**」即可触发。
+**OpenAI Codex CLI** —— Skills 自 2025-12 起支持，克隆到 `~/.codex/skills`：
+
+```bash
+git clone https://github.com/YanyingWei1997/exam-flashcard-builder.git \
+  ~/.codex/skills/exam-flashcard-builder
+```
+
+> Codex 也可用内置 `$skill-installer` 从本仓库 URL 安装；若要在某个项目内共享，则放入仓库的 `.codex/skills/`。可在 `~/.codex/config.toml` 用 `[[skills.config]]` 管理启停。
+
+安装后，在对话中说「**帮我把这份资料做成复习卡片**」「**用这门课的资料做个复习系统**」即可触发。
 
 ## 🧠 工作流
 
