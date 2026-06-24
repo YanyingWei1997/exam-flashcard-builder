@@ -1999,6 +1999,15 @@
     }
 
     function closeFsDraw() {
+        // 先把巨型画布缩成 1×1 释放 backing store，再隐藏覆盖层，
+        // 否则销毁一个高达数千像素的全屏 canvas 图层会触发整页重排，导致退出卡顿。
+        // （“最小化”走 minimizeFsDraw，保留内容；“退出”是彻底离开，清空即可，
+        //   重新打开时 openFsDraw 会按视口尺寸重建画布。）
+        if (fsCanvas) {
+            fsCanvas.width = 1;
+            fsCanvas.height = 1;
+        }
+        cachedRect = null;
         document.getElementById('fsDrawOverlay').classList.remove('show');
         document.getElementById('fsFloatingBtn').classList.remove('show');
     }
@@ -2080,7 +2089,9 @@
         // 自动扩展画布高度：当画笔接近底部时增加画布（画布在容器内滚动，不拉长页面）
         var margin = 80;
         if (p.y + margin > cv.height) {
-            extendCanvas(cv, c, p.y + margin + 200);
+            // 一次扩展一大块（+800），减少 getImageData/putImageData 整张位图拷贝的频率，
+            // 避免画布越写越高时书写卡顿。
+            extendCanvas(cv, c, p.y + margin + 800);
             // 重新缓存 rect（画布尺寸变了）
             cachedRect = cv.getBoundingClientRect();
         }
